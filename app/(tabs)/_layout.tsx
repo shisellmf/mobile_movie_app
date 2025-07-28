@@ -87,7 +87,7 @@ const _layout = () => {
             name="search"
             options={{
                 title:'Search',
-                headerShown:true,
+                headerShown:false,
                 tabBarIcon:({focused}) =>(
                     <TabIcon
                         focused={focused}
