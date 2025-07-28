@@ -6,22 +6,34 @@ import MovieCard from '../components/MovieCard';
 import { icons } from '@/constants/icons';
 import SearchBar from "../components/SearchBar";
 import { StyleSheet, Image, View, 
-         FlatList, ActivityIndicator,Text } from 'react-native'
-import { ScreenStackHeaderSearchBarView } from 'react-native-screens';
+         FlatList, ActivityIndicator,Text, 
+         Alert} from 'react-native'
+import { updateSearchCount } from '../services/appwrite';
 
 const search = () => {    
   const[searchQuery,setSearchQuery]= useState('');
 
   const{data:movies,loading,error,
         refetch: loadMovies, reset} = useFetch(
-        ()=> fetchMovies({query:searchQuery}),true
+        ()=> fetchMovies({query:searchQuery}),false
       );
+
+  const showAlert = (result:any) => {
+    Alert.alert(
+      "¡Alerta!",
+      result,
+      [{ text: "OK" }]
+    );
+  };
 
   useEffect(()=>{
     const timeout= setTimeout(
       async () =>{
         if(searchQuery.trim()){
           await loadMovies();
+          if(movies?.length>0 && movies?.[0]){
+            await updateSearchCount(searchQuery,movies[0]);
+          }
         }else{
           reset();
         }
