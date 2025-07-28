@@ -5,6 +5,7 @@ import { ActivityIndicator, FlatList, Image, ScrollView, Text, View } from "reac
 import SearchBar from "../components/SearchBar";
 import { fetchMovies } from "../services/api";
 import useFetch from "../services/useFetch";
+import MovieCard from "../components/MovieCard";
 
 export default function Index() {
    const router = useRouter();
@@ -30,7 +31,7 @@ export default function Index() {
           mx-auto"></Image>
         
           {moviesLoading ? (
-            <ActivityIndicator
+            <ActivityIndicator 
              size="large"
              color="#0000ff"
              className="mt-0 self-center"
@@ -47,9 +48,9 @@ export default function Index() {
                <FlatList
                 data={movies}
                 renderItem={({item }) => (
-                  <Text className="text-white">
-                    {item.title}
-                  </Text>
+                  <MovieCard
+                  {...item}
+                  ></MovieCard>
                 )}
                 keyExtractor={(item) => item.id.toString()}
                 numColumns={3}
