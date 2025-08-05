@@ -7,6 +7,7 @@ import { fetchMovies } from "../services/api";
 import useFetch from "../services/useFetch";
 import MovieCard from "../components/MovieCard";
 import { getTrendingMovies } from "../services/appwrite";
+import TrandingCard from "../components/TrandingCard";
 
 export default function Index() {
    const router = useRouter();
@@ -59,33 +60,38 @@ export default function Index() {
                   <Text className="text-lg text-white font-bold mt-5 mb-3">
                     Trending Movies</Text>
                   <FlatList 
+                    horizontal
+                    ItemSeparatorComponent={()=>
+                      <View className="w-4"></View>
+                    }
                     data={trendingMovies}
                     renderItem={({item,index}) => (
-                    <Text className="text-white text-sm">
-                      {item.title}
-                    </Text>                     
+                        <TrandingCard
+                          movie={item}
+                          index={index}
+                        />        
                     )}
                     keyExtractor={(item) => item.movie_id.toString()}>
                   </FlatList>
                 </View> 
                )}
-               <Text className="text-lg text-white">Latest Movies</Text>
-               <FlatList
-                data={movies}
-                renderItem={({item }) => (
-                  <MovieCard
-                  {...item}
-                  ></MovieCard>
-                )}
-                keyExtractor={(item) => item.id.toString()}
-                numColumns={3}
-                columnWrapperStyle={{
-                  justifyContent:"space-between",
-                  gap:20,
-                  paddingRight:5,
-                  marginBottom:10
-                }}
-                className="mt-2 pb-32"
+               <Text className="text-lg text-white font-bold mt-5 mb-3">Latest Movies</Text>
+               <FlatList                  
+                  data={movies}
+                  renderItem={({item}) => (
+                    <MovieCard
+                    {...item}
+                    ></MovieCard>
+                  )}
+                  keyExtractor={(item) => item.id.toString()}
+                  numColumns={3}
+                  columnWrapperStyle={{
+                    justifyContent:"space-between",
+                    gap:20,
+                    paddingRight:5,
+                    marginBottom:10
+                  }}
+                  className="mt-2 pb-32"
                >                
                </FlatList>
              </View>        
