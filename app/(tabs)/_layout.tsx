@@ -73,7 +73,7 @@ const _layout = () => {
             name="save"
             options={{
                 title:'Save',
-                headerShown:true,
+                headerShown:false,
                 tabBarIcon:({focused}) =>(
                     <TabIcon
                         focused={focused}
@@ -101,7 +101,7 @@ const _layout = () => {
             name="profile"
             options={{
                 title:'Profile',
-                headerShown:true,
+                headerShown:false,
                 tabBarIcon:({focused}) =>(
                     <TabIcon
                         focused={focused}
