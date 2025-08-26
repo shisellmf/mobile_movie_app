@@ -3,7 +3,7 @@ import { images } from "@/constants/images";
 import { useRouter } from "expo-router";
 import { ActivityIndicator, FlatList, Image, ScrollView, Text, View } from "react-native";
 import SearchBar from "../components/SearchBar";
-import { fetchMovies } from "../services/api";
+import { fetchMovies, nowPlayingAction } from "../services/api";
 import useFetch from "../services/useFetch";
 import MovieCard from "../components/MovieCard";
 import { getTrendingMovies } from "../services/appwrite";

@@ -1,3 +1,8 @@
+import { MovieResponse } from "@/interfaces/movieResponse";
+import { apiClient } from "../actions/app-api";
+import { MovieMapper } from "../infraestructure/mappers/movie.mapper";
+
+
 export const TMDB_CONFIG={
     BASE_URL:'https://api.themoviedb.org/3',
     API_KEY: process.env.EXPO_PUBLIC_MOVIE_API_KEY,
@@ -6,6 +11,19 @@ export const TMDB_CONFIG={
         Authorization:`Bearer ${process.env.EXPO_PUBLIC_MOVIE_API_KEY}`
     }
 }
+
+export const nowPlayingAction= async () => {
+   try {
+       const {data} = await apiClient.get<MovieResponse>('/now_playing');
+
+       const movies = data.results.map(MovieMapper.fromMovieApi);
+
+       return movies;
+   } catch (error) {
+        console.log(error);
+        throw new Error('Failed to fetch now playing movies');
+   }
+};
 
 export const fetchMovies= async ({query}:{query:string})=> {
     const endpoint= query
