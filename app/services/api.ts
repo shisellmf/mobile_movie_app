@@ -1,6 +1,9 @@
 import { MovieResponse } from "@/interfaces/movieResponse";
 import { apiClient } from "../actions/app-api";
 import { MovieMapper } from "../infraestructure/mappers/movie.mapper";
+import { MovieCast, MovieMap } from "@/interfaces/movie";
+import { MovieDetailResponse } from "@/interfaces/movieDetailResponse";
+import { Cast, MovieCastResponse } from "@/interfaces/movieCastResponse";
 
 
 export const TMDB_CONFIG={
@@ -47,6 +50,34 @@ export const getMovies = async (query:string,{ page=1, limit=20}) => {
        const movies = data.results.map(MovieMapper.fromMovieApi);
 
        return movies;
+   } catch (error) {
+        console.log(error);
+        throw new Error('Failed to fetch now playing movies');
+   }
+}
+
+export const getMovieDetail = async (idMovie:string) => {
+     try {
+        const {data} = await apiClient.get<MovieDetailResponse>(`/${idMovie}`);
+
+
+        const movie = MovieMapper.fromMovieDetailApi(data);
+
+       return movie;
+   } catch (error) {
+        console.log(error);
+        throw new Error('Failed to fetch now playing movies');
+   }
+}
+
+export const getMovieCast = async (idMovie:string) => {
+     try {
+        const {data} = await apiClient.get<MovieCastResponse>(`/${idMovie}/credits`);
+
+
+        const castMovie:MovieCast[] = data.cast.map(MovieMapper.fromMovieCastApi)
+
+       return castMovie;
    } catch (error) {
         console.log(error);
         throw new Error('Failed to fetch now playing movies');
