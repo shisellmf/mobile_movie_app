@@ -13,8 +13,26 @@ export const TMDB_CONFIG={
 }
 
 export const nowPlayingAction= async () => {
-   try {
-       const {data} = await apiClient.get<MovieResponse>('/now_playing');
+  return getMovies('/now_playing');
+};
+
+export const ratedAction= async () => {
+  return getMovies('/top_rated');
+};
+
+export const popularAction= async () => {
+  return getMovies('/popular');
+};
+
+
+export const upcomingAction= async () => {
+  return getMovies('/upcoming');
+};
+
+
+export const getMovies = async (query:string) => {
+     try {
+       const {data} = await apiClient.get<MovieResponse>(query);
 
        const movies = data.results.map(MovieMapper.fromMovieApi);
 
@@ -23,7 +41,7 @@ export const nowPlayingAction= async () => {
         console.log(error);
         throw new Error('Failed to fetch now playing movies');
    }
-};
+}
 
 export const fetchMovies= async ({query}:{query:string})=> {
     const endpoint= query

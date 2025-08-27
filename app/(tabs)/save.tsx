@@ -1,15 +1,16 @@
 import React from 'react'
-import { ActivityIndicator, FlatList, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, FlatList, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import useMovie from '../hooks/useMovie';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import MainSlidesShow from '../components/movies/MainSlides';
 import MovieHorizontal from '../components/movies/MovieHorizontal';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const save = () => {
 
   const safeArea= useSafeAreaInsets()
-  const {nowPlayingQuery,popularQuery} = useMovie();
+  const {nowPlayingQuery,popularQuery,ratedQuery,upComingQuery} = useMovie();
 
   if(nowPlayingQuery.isLoading){
     return (
@@ -20,12 +21,17 @@ const save = () => {
   }
 
   return (
-    <View className='mt-2' style={{paddingTop: safeArea.top}}> 
-      <Text className='text-3xl font-bold px-4 mb-2'>Movies Save</Text>
-      <MainSlidesShow movies={nowPlayingQuery.data??[]}></MainSlidesShow>
-
-      <MovieHorizontal movies={popularQuery.data??[]}></MovieHorizontal>
-    </View>
+    <SafeAreaView className='flex-1 pt-safe'>
+        <ScrollView className='flex-1'>
+          <View className='pb-40' style={{paddingTop: safeArea.top}}> 
+            <Text className='text-3xl font-bold px-4 mb-2'>Movies Save</Text>
+            <MainSlidesShow className='mb-12' movies={nowPlayingQuery.data??[]}></MainSlidesShow>
+            <MovieHorizontal title='Populars' movies={popularQuery.data??[]}></MovieHorizontal>
+            <MovieHorizontal title='Top Rated' movies={ratedQuery.data??[]}></MovieHorizontal>
+            <MovieHorizontal title='Upcoming' movies={upComingQuery.data??[]}></MovieHorizontal>
+          </View>
+      </ScrollView>
+    </SafeAreaView>   
   )
 }
 

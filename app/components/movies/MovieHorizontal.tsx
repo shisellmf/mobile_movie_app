@@ -5,16 +5,17 @@ import { MovieMap } from '@/interfaces/movie'
 import MoviePoster from './MoviePoster'
 
 interface Props {
+ title?: string
   movies: MovieMap[]
 }
 
-const MovieHorizontal = ({movies}: Props) => {
+const MovieHorizontal = ({title,movies}: Props) => {
 
   const ref= useRef<FlatList<MovieMap>>(null);
 
   return (
     <View>
-      <Text className='text-3xl font-bold px-4 mb-2 mt-20'>Populars</Text>
+      {title && <Text className='text-3xl font-bold px-4 mb-2 mt-6'>{title}</Text>}
       <FlatList
         ref={ref}
         horizontal

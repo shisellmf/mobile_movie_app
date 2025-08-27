@@ -8,16 +8,17 @@ import Carousel, {
 } from "react-native-reanimated-carousel";
 
 interface Props{
+    className?: string
     movies: MovieMap[]
 }
 
-const MainSlidesShow = ({ movies }: Props) => {
+const MainSlidesShow = ({ className, movies }: Props) => {
 
  const ref= useRef<ICarouselInstance>(null);
  const width = useWindowDimensions().width;
 
   return (
-    <View className='w-full h-[200px]'>
+    <View className={`w-full h-[200px] ${className}`}>
       <Carousel
         ref={ref}
         data={movies}
