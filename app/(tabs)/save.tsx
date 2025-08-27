@@ -27,7 +27,11 @@ const save = () => {
             <Text className='text-3xl font-bold px-4 mb-2'>Movies Save</Text>
             <MainSlidesShow className='mb-12' movies={nowPlayingQuery.data??[]}></MainSlidesShow>
             <MovieHorizontal title='Populars' movies={popularQuery.data??[]}></MovieHorizontal>
-            <MovieHorizontal title='Top Rated' movies={ratedQuery.data??[]}></MovieHorizontal>
+            <MovieHorizontal 
+               title='Top Rated'
+               movies={ratedQuery.data?.pages?.flat()??[]}
+               loadNextPage={ratedQuery.fetchNextPage}>
+            </MovieHorizontal>
             <MovieHorizontal title='Upcoming' movies={upComingQuery.data??[]}></MovieHorizontal>
           </View>
       </ScrollView>

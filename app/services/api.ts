@@ -12,27 +12,37 @@ export const TMDB_CONFIG={
     }
 }
 
+interface Options{
+    page?: number;
+    limit?: number;
+}
+
 export const nowPlayingAction= async () => {
-  return getMovies('/now_playing');
+  return getMovies('/now_playing', {page:1, limit:20});
 };
 
-export const ratedAction= async () => {
-  return getMovies('/top_rated');
+export const ratedAction= async ({page, limit}: Options) => {
+  console.log("page: ",page)
+  return getMovies('/top_rated', {page, limit});
 };
 
 export const popularAction= async () => {
-  return getMovies('/popular');
+  return getMovies('/popular', {page:1, limit:20});
 };
-
 
 export const upcomingAction= async () => {
-  return getMovies('/upcoming');
+  return getMovies('/upcoming', {page:1, limit:20});
 };
 
 
-export const getMovies = async (query:string) => {
+export const getMovies = async (query:string,{ page=1, limit=20}) => {
      try {
-       const {data} = await apiClient.get<MovieResponse>(query);
+       const {data} = await apiClient.get<MovieResponse>(query,{
+        params:{
+          page,
+          limit
+        }
+       });
 
        const movies = data.results.map(MovieMapper.fromMovieApi);
 
